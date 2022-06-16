@@ -5,7 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7CE25D55-511
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Core", "src\TimeBuddy.Core\TimeBuddy.Core.csproj", "{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor", "src\TimeBuddy.Blazor\TimeBuddy.Blazor.csproj", "{D0912997-7D95-4E7F-8633-529A3BB92FD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Maui", "src\TimeBuddy.Maui\TimeBuddy.Maui.csproj", "{D0912997-7D95-4E7F-8633-529A3BB92FD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor.Components", "src\TimeBuddy.Blazor.Components\TimeBuddy.Blazor.Components.csproj", "{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}"
 EndProject

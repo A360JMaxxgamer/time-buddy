@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace TimeBuddy.Blazor;
+namespace TimeBuddy.Maui;
 
 public class Program
 {

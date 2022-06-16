@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace TimeBuddy.Blazor;
+namespace TimeBuddy.Maui;
 
 [Application]
 public class MainApplication : MauiApplication

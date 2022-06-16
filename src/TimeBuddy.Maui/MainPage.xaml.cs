@@ -1,4 +1,4 @@
-﻿namespace TimeBuddy.Blazor;
+﻿namespace TimeBuddy.Maui;
 
 public partial class MainPage : ContentPage
 {

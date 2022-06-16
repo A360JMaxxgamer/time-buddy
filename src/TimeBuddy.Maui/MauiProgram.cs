@@ -1,7 +1,7 @@
 ﻿using MudBlazor.Services;
 using TimeBuddy.Core;
 
-namespace TimeBuddy.Blazor;
+namespace TimeBuddy.Maui;
 
 public static class MauiProgram
 {

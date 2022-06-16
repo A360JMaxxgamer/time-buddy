@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace TimeBuddy.Blazor;
+namespace TimeBuddy.Maui;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="TimeBuddy.Blazor.WinUI.App"
+    x:Class="TimeBuddy.Maui.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:TimeBuddy.Blazor.WinUI">
+    xmlns:local="using:TimeBuddy.Maui.WinUI">
 
 </maui:MauiWinUIApplication>
