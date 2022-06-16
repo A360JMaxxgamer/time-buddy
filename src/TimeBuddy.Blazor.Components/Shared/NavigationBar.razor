@@ -25,11 +25,7 @@
     private void UpdateBreadCrumbItems()
     {
         var location = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        var items = new List<BreadcrumbItem>()
-        {
-            new("Home", "/")
-        };
-
+        var items = new List<BreadcrumbItem>();
         var lastStart = 0;
         var endIndex = location.Length - 1;
         for (var i = 0; i < location.Length; i++)

@@ -1,0 +1,30 @@
+﻿@using TimeBuddy.Core.Models
+@inject IState<ProjectListState> ProjectListState
+
+<MudPaper Class="align-content-space-between d-flex flex-grow-1 flex-row">
+    @if (ProjectListState.Value.IsLoading)
+
+    {
+        <MudSkeleton Class="ma-3" SkeletonType="SkeletonType.Rectangle"></MudSkeleton>
+    }
+    else
+    {
+        <MudSelect Class="ma-3" T="Project" Label="Current Project">
+            @foreach (var project in ProjectListState.Value.Projects)
+            {
+                <MudSelectItem Value="project">@project.Name</MudSelectItem>
+            }
+        </MudSelect>
+    }
+    
+    <MudDivider FlexItem="true" Vertical="true" />
+    
+    <MudIconButton Class="ma-3" Icon="@Icons.Filled.PlayArrow"/>
+    <MudIconButton Class="ma-3" Icon="@Icons.Filled.Pause"/>
+    <MudIconButton Class="ma-3" Icon="@Icons.Filled.Stop"/>
+</MudPaper>
+
+
+@code {
+    
+}

@@ -3,11 +3,11 @@
 @inject IDispatcher Dispatcher
 @inject NavigationManager NavigationManager
 
-<MudList>
+<MudList Class="align-content-stretch">
     @foreach (var project in State.Value.Projects)
     {
-        <MudListItem OnClick="() => OpenProject(project.Id)">
-            <MudCard>
+        <MudListItem OnClick="() => OpenProject(project.Id)" >
+            <MudCard Class="align-content-stretch">
                 <MudCardHeader>@project.Name</MudCardHeader>
             </MudCard>
         </MudListItem>
