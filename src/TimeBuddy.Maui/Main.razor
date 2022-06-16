@@ -1,6 +1,7 @@
 ﻿@using System.Reflection
+@using TimeBuddy.Blazor.Components.Shared
 @using MudBlazor.Extensions
-<Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[]{ typeof(Components._Imports).Assembly}">
+<Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[]{ typeof(TimeBuddy.Blazor.Components._Imports).Assembly}">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
         <FocusOnNavigate RouteData="@routeData" Selector="h1"/>

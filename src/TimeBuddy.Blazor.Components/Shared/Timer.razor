@@ -1,5 +1,14 @@
 ﻿@using TimeBuddy.Core.Models
+@using TimeBuddy.Core.Services
+@using TimeBuddy.Core.Store.TimerUseCase
+@using System.Reactive.Linq
+@using System.Timers
+
+@inherits FluxorComponent
+
 @inject IState<ProjectListState> ProjectListState
+@inject IDispatcher Dispatcher
+@inject IState<TimerState> TimerState
 
 <MudPaper Class="align-content-space-between d-flex flex-grow-1 flex-row">
     @if (ProjectListState.Value.IsLoading)
@@ -19,12 +28,60 @@
     
     <MudDivider FlexItem="true" Vertical="true" />
     
-    <MudIconButton Class="ma-3" Icon="@Icons.Filled.PlayArrow"/>
-    <MudIconButton Class="ma-3" Icon="@Icons.Filled.Pause"/>
-    <MudIconButton Class="ma-3" Icon="@Icons.Filled.Stop"/>
+    <MudText Class="ma-3 justify-center align-center"
+             hidden="@(TimerState.Value.Activity is not TimerActivity.Active)">
+        @TimerState.Value.ElapsedTime.ToString(@"hh\:mm\:ss")
+    </MudText>
+    
+    <MudIconButton Class="ma-3" 
+                   Icon="@Icons.Filled.PlayArrow"
+                   OnClick="() => Dispatcher.Dispatch(new PlayAction())"
+                   hidden="@(TimerState.Value.Activity is TimerActivity.Active)"/>
+    <MudIconButton Class="ma-3"
+                   Icon="@Icons.Filled.Pause"
+                   OnClick="() => Dispatcher.Dispatch(new PauseAction())"
+                   hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
+    <MudIconButton Class="ma-3"
+                   Icon="@Icons.Filled.Stop" 
+                   OnClick="() => Dispatcher.Dispatch(new StopAction())"
+                   hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
 </MudPaper>
 
 
 @code {
-    
+
+    private TimerActivity _lastActivity;
+    private System.Timers.Timer _uiRefreshTimer = new(333);
+    private IDisposable? _stateObservable;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _uiRefreshTimer.Elapsed += OnUiRefreshTimer;
+        _stateObservable = Observable.FromEventPattern(
+            handler => TimerState.StateChanged += handler,
+            handler => TimerState.StateChanged -= handler)
+            .Subscribe(_ =>
+            {
+                if (TimerState.Value.Activity is TimerActivity.Active && _lastActivity != TimerState.Value.Activity)
+                {
+                    _uiRefreshTimer.Start();
+                }
+            });
+    }
+
+    private void OnUiRefreshTimer(object? sender, ElapsedEventArgs e)
+    {
+        Dispatcher.Dispatch(new RefreshUiTimerAction());
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        _stateObservable?.Dispose();
+        _uiRefreshTimer.Elapsed -= OnUiRefreshTimer;
+    }
+
 }

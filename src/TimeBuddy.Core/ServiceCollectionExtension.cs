@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TimeBuddy.Core.Contexts;
 using TimeBuddy.Core.Models;
+using TimeBuddy.Core.Services;
 
 namespace TimeBuddy.Core;
 
@@ -35,6 +36,12 @@ public static class ServiceCollectionExtension
     {
         services.AddFluxor(options => options.ScanAssemblies(typeof(ServiceCollectionExtension).Assembly));
 
+        return services;
+    }
+
+    public static IServiceCollection AddTimeBuddyServices(this IServiceCollection services)
+    {
+        services.AddSingleton<ITimerService, TimerService>();
         return services;
     }
 

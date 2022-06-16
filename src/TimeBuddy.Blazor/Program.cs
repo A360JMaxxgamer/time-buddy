@@ -13,6 +13,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services
     .AddMudServices()
+    .AddTimeBuddyServices()
     .AddTimeBuddyContext("timeBuddy.db")
     .AddStateManagement();
 
