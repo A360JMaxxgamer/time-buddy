@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Maui", "src\TimeB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor.Components", "src\TimeBuddy.Blazor.Components\TimeBuddy.Blazor.Components.csproj", "{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor", "src\TimeBuddy.Blazor\TimeBuddy.Blazor.csproj", "{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,10 +29,15 @@ Global
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
 		{D0912997-7D95-4E7F-8633-529A3BB92FD2} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
 	EndGlobalSection
 EndGlobal
