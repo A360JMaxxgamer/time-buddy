@@ -1,6 +1,4 @@
-﻿@using Fluxor
-@using TimeBuddy.Core.Store.ProjectListUseCase
-@inherits FluxorComponent
+﻿@inherits FluxorComponent
 @inject IState<ProjectListState> State
 @inject IDispatcher Dispatcher
 @inject NavigationManager NavigationManager
@@ -27,6 +25,6 @@
 
     private void OpenProject(int id)
     {
-        NavigationManager.NavigateTo($"/project/{id}");
+        NavigationManager.NavigateTo($"/projects/{id}");
     }
 }

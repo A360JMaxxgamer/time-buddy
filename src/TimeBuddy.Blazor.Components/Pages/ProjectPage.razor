@@ -1,21 +1,22 @@
-﻿@page "/project/{ProjectId:int}"
-@inherits FluxorComponent
+﻿@page "/projects/{ProjectId:int}"
 @using TimeBuddy.Core.Store.ProjectUseCase
+@inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ProjectState> State
 
 @if (State.Value.Project is null || State.Value.IsLoading)
 {
-    <MudProgressCircular Indeterminate="true" />
+    <MudProgressCircular Indeterminate="true"/>
 }
 else
 {
     <MudContainer>
         <MudText>@State.Value.Project.Name</MudText>
-    </MudContainer>   
+    </MudContainer>
 }
 
 @code {
+
     [Parameter]
     public int ProjectId { get; set; }
 

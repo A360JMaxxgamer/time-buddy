@@ -7,23 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TimeBuddy.Core\TimeBuddy.Core.csproj" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-        <PackageReference Include="Fluxor.Blazor.Web" Version="5.4.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
-        <PackageReference Include="MudBlazor" Version="6.0.10" />
+        <ProjectReference Include="..\TimeBuddy.Core\TimeBuddy.Core.csproj"/>
     </ItemGroup>
 
 
     <ItemGroup>
-      <Folder Include="Dialogs" />
+        <PackageReference Include="Fluxor.Blazor.Web" Version="5.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5"/>
+        <PackageReference Include="MudBlazor" Version="6.0.10"/>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Folder Include="Dialogs"/>
     </ItemGroup>
 
 </Project>
