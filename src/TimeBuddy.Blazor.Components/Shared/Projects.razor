@@ -3,12 +3,15 @@
 @inherits FluxorComponent
 @inject IState<ProjectListState> State
 @inject IDispatcher Dispatcher
+@inject NavigationManager NavigationManager
 
 <MudList>
     @foreach (var project in State.Value.Projects)
     {
-        <MudListItem>
-            @project.Name
+        <MudListItem OnClick="() => OpenProject(project.Id)">
+            <MudCard>
+                <MudCardHeader>@project.Name</MudCardHeader>
+            </MudCard>
         </MudListItem>
     }
 </MudList>
@@ -20,5 +23,10 @@
     {
         base.OnInitialized();
         Dispatcher.Dispatch(new FetchProjectsAction());
+    }
+
+    private void OpenProject(int id)
+    {
+        NavigationManager.NavigateTo($"/project/{id}");
     }
 }
