@@ -1,0 +1,24 @@
+﻿@using Fluxor
+@using TimeBuddy.Core.Store.ProjectListUseCase
+@inherits FluxorComponent
+@inject IState<ProjectListState> State
+@inject IDispatcher Dispatcher
+
+<MudList>
+    @foreach (var project in State.Value.Projects)
+    {
+        <MudListItem>
+            @project.Name
+        </MudListItem>
+    }
+</MudList>
+
+@code
+{
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new FetchProjectsAction());
+    }
+}

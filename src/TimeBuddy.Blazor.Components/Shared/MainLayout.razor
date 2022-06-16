@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+<Fluxor.Blazor.Web.StoreInitializer/>
+
+<MudLayout>
+    <MudAppBar>
+        Time Buddz
+    </MudAppBar>
+    <MudDrawer Open="true">
+
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
