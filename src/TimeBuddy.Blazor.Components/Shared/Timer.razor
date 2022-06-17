@@ -10,15 +10,15 @@
 @inject IDispatcher Dispatcher
 @inject IState<TimerState> TimerState
 
-<MudPaper Class="align-content-space-between d-flex flex-grow-1 flex-row">
+<MudPaper Class="d-flex flex-grow-1 flex-row">
     @if (ProjectListState.Value.IsLoading)
 
     {
-        <MudSkeleton Class="ma-3" SkeletonType="SkeletonType.Rectangle"></MudSkeleton>
+        <MudSkeleton Class="ma-5" SkeletonType="SkeletonType.Rectangle"></MudSkeleton>
     }
     else
     {
-        <MudSelect Class="ma-3" T="Project" Label="Current Project">
+        <MudSelect Class="ma-5 flex-initial" T="Project" Label="Current Project">
             @foreach (var project in ProjectListState.Value.Projects)
             {
                 <MudSelectItem Value="project">@project.Name</MudSelectItem>
@@ -28,20 +28,20 @@
     
     <MudDivider FlexItem="true" Vertical="true" />
     
-    <MudText Class="ma-3 justify-center align-center"
+    <MudText Class="d-flex ma-auto justify-center align-content-center"
              hidden="@(TimerState.Value.Activity is not TimerActivity.Active)">
         @TimerState.Value.ElapsedTime.ToString(@"hh\:mm\:ss")
     </MudText>
     
-    <MudIconButton Class="ma-3" 
+    <MudIconButton Class="ma-5" 
                    Icon="@Icons.Filled.PlayArrow"
                    OnClick="() => Dispatcher.Dispatch(new PlayAction())"
                    hidden="@(TimerState.Value.Activity is TimerActivity.Active)"/>
-    <MudIconButton Class="ma-3"
+    <MudIconButton Class="ma-5"
                    Icon="@Icons.Filled.Pause"
                    OnClick="() => Dispatcher.Dispatch(new PauseAction())"
                    hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
-    <MudIconButton Class="ma-3"
+    <MudIconButton Class="ma-35"
                    Icon="@Icons.Filled.Stop" 
                    OnClick="() => Dispatcher.Dispatch(new StopAction())"
                    hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
