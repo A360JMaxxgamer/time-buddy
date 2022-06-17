@@ -19,7 +19,9 @@ public class Effects
         try
         {
             dispatcher.Dispatch(new SetIsloadingAction(true));
-            var project = await _timeBuddyContext.Projects.FirstOrDefaultAsync(p => p.Id == action.ProjectId);
+            var project = await _timeBuddyContext.Projects
+                .Include(p => p.TimeFrames)
+                .FirstOrDefaultAsync(p => p.Id == action.ProjectId);
             if (project is not null)
             {
                 dispatcher.Dispatch(new SetProjectAction(project));
