@@ -35,4 +35,7 @@ public static class Reducer
         {
             ElapsedTime = DateTime.UtcNow - state.LastStart.ToUniversalTime()
         };
+
+    [ReducerMethod]
+    public static TimerState ReduceSetLoadedStateAction(TimerState _, SetLoadedStateAction action) => action.State;
 }

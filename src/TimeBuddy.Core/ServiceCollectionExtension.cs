@@ -45,6 +45,12 @@ public static class ServiceCollectionExtension
         return services;
     }
 
+    public static IServiceCollection AddLocalStorageService(this IServiceCollection services, Func<IServiceProvider, DirectoryInfo> folderAction)
+    {
+        services.AddScoped<ILocalStorageService>(provider => new LocalStorageService(folderAction.Invoke(provider)));
+        return services;
+    }
+
     private static List<Project> CreateTestProjects() => new()
     {
         new Project()

@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
 using TimeBuddy.Blazor.Data;
+using TimeBuddy.Blazor.Services;
 using TimeBuddy.Core;
+using TimeBuddy.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services
     .AddMudServices()
     .AddTimeBuddyServices()
+    .AddScoped<ILocalStorageService, BlazorLocalStorageService>()
     .AddTimeBuddyContext("timeBuddy.db")
     .AddStateManagement();
 

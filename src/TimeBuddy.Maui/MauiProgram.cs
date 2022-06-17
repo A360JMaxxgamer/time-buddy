@@ -20,6 +20,7 @@ public static class MauiProgram
         builder.Services
             .AddMudServices()
             .AddTimeBuddyServices()
+            .AddLocalStorageService(_ => new DirectoryInfo($"{FileSystem.Current.AppDataDirectory}"))
             .AddTimeBuddyContext($"{FileSystem.Current.AppDataDirectory}/timeBuddy.db")
             .AddStateManagement();
 

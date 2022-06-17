@@ -5,11 +5,16 @@ namespace TimeBuddy.Core.Store.TimerUseCase;
 
 public class Effects
 {
+    private const string StorageKey = "TimerState";
     private readonly ITimerService _timerService;
+    private readonly IState<TimerState> _timerState;
+    private readonly ILocalStorageService _localStorageService;
 
-    public Effects(ITimerService timerService)
+    public Effects(ITimerService timerService, IState<TimerState> timerState, ILocalStorageService localStorageService)
     {
         _timerService = timerService;
+        _timerState = timerState;
+        _localStorageService = localStorageService;
     }
 
     [EffectMethod]
@@ -40,5 +45,25 @@ public class Effects
     public async Task HandleSaveAction(SaveAction action, IDispatcher dispatcher)
     {
         
+    }
+
+    [EffectMethod(typeof(RefreshUiTimerAction))]
+    public async Task HandleRefreshUiTimerAction(IDispatcher _)
+    {
+        await _localStorageService.SaveAsync(StorageKey, _timerState.Value);
+    }
+
+    [EffectMethod(typeof(LoadStateAction))]
+    public async Task HandleLoadStateAction(IDispatcher dispatcher)
+    {
+        try
+        {
+            var state = await _localStorageService.LoadAsync<TimerState>(StorageKey);
+            dispatcher.Dispatch(new SetLoadedStateAction(state));
+        }
+        catch (ArgumentNullException e)
+        {
+            // Todo logging
+        }
     }
 }

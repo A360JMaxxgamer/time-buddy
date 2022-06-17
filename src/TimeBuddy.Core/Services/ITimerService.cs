@@ -9,6 +9,4 @@ public interface ITimerService
     Task<TimeFrame> PauseAsync();
 
     Task<TimeFrame[]> StopAsync();
-
-    Task ReadStateFromStorage();
 }

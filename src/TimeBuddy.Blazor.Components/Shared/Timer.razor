@@ -69,6 +69,7 @@
                     _uiRefreshTimer.Start();
                 }
             });
+        Dispatcher.Dispatch((new LoadStateAction()));
     }
 
     private void OnUiRefreshTimer(object? sender, ElapsedEventArgs e)

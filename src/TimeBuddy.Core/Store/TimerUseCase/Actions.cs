@@ -16,6 +16,10 @@ public record AddRecordedTimeFrame(TimeFrame TimeFrame);
 
 public record SaveAction(TimeFrame[] RecordedTimeFrames);
 
+public record SetLoadedStateAction(TimerState State);
+
+public record LoadStateAction;
+
 public record RefreshUiTimerAction;
 
 public record ClearAction;
