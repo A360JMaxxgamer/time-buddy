@@ -34,7 +34,9 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection AddStateManagement(this IServiceCollection services)
     {
-        services.AddFluxor(options => options.ScanAssemblies(typeof(ServiceCollectionExtension).Assembly));
+        services.AddFluxor(options => options
+            .ScanAssemblies(typeof(ServiceCollectionExtension).Assembly)
+            .UseReduxDevTools());
 
         return services;
     }

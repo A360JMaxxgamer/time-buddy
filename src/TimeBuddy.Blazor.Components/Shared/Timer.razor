@@ -18,7 +18,12 @@
     }
     else
     {
-        <MudSelect Class="ma-5 flex-initial" T="Project" Label="Current Project">
+        <MudSelect Class="ma-5 flex-initial"
+                   Style="min-width: 200px"
+                   T="Project" 
+                   Disabled="@(TimerState.Value.Activity is not TimerActivity.Stopped)"
+                   Label="Current Project" 
+                   @bind-Value="ActiveProject">
             @foreach (var project in ProjectListState.Value.Projects)
             {
                 <MudSelectItem Value="project">@project.Name</MudSelectItem>
@@ -54,6 +59,17 @@
     private System.Timers.Timer _uiRefreshTimer = new(333);
     private IDisposable? _stateObservable;
 
+    public Project? ActiveProject
+    {
+        get => TimerState.Value.ActiveProject;
+        set
+        {
+            if (value is not null)
+                Dispatcher.Dispatch(new SetActiveProjectAction(value));
+        }
+    }
+    
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -64,10 +80,7 @@
             handler => TimerState.StateChanged -= handler)
             .Subscribe(_ =>
             {
-                if (TimerState.Value.Activity is TimerActivity.Active && _lastActivity != TimerState.Value.Activity)
-                {
-                    _uiRefreshTimer.Start();
-                }
+                _uiRefreshTimer.Enabled = TimerState.Value.Activity is TimerActivity.Active;
             });
         Dispatcher.Dispatch((new LoadStateAction()));
     }

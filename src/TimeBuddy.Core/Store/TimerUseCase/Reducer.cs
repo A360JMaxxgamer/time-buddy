@@ -38,4 +38,11 @@ public static class Reducer
 
     [ReducerMethod]
     public static TimerState ReduceSetLoadedStateAction(TimerState _, SetLoadedStateAction action) => action.State;
+
+    [ReducerMethod]
+    public static TimerState ReduceSetActiveProjectAction(TimerState state, SetActiveProjectAction action) =>
+        state with
+        {
+            ActiveProject = action.Project
+        };
 }

@@ -8,13 +8,15 @@ public record PauseAction;
 
 public record StopAction;
 
+public record SetActiveProjectAction(Project Project);
+
 public record SetActivityAction(TimerActivity Activity);
 
 public record SetLastStartAction(DateTime StartedAt);
 
 public record AddRecordedTimeFrame(TimeFrame TimeFrame);
 
-public record SaveAction(TimeFrame[] RecordedTimeFrames);
+public record SaveAction(Project Project, TimeFrame[] RecordedTimeFrames);
 
 public record SetLoadedStateAction(TimerState State);
 

@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
 using TimeBuddy.Blazor.Data;
 using TimeBuddy.Blazor.Services;
