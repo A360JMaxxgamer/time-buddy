@@ -1,5 +1,6 @@
 ﻿@page "/projects/{ProjectId:int}"
 @using TimeBuddy.Core.Store.ProjectUseCase
+@using TimeBuddy.Core.Models
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ProjectState> State
@@ -12,7 +13,7 @@ else
 {
     <MudContainer>
         <MudText>@State.Value.Project.Name</MudText>
-        <TimeFramesTable TimeFrames="@State.Value.Project.TimeFrames"></TimeFramesTable>
+        <TimeFrameTimeLine TimeFrames="@State.Value.Project.TimeFrames"/>
     </MudContainer>
 }
 
@@ -27,5 +28,5 @@ else
         base.OnParametersSet();
         Dispatcher.Dispatch(new LoadProjectAction(ProjectId));
     }
-
+    
 }
