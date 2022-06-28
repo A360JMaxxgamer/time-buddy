@@ -12,7 +12,6 @@
 
 <MudPaper Class="d-flex flex-grow-1 flex-row">
     @if (ProjectListState.Value.IsLoading)
-
     {
         <MudSkeleton Class="ma-5" SkeletonType="SkeletonType.Rectangle"></MudSkeleton>
     }
@@ -64,7 +63,8 @@
 
     public Project? ActiveProject
     {
-        get => TimerState.Value.ActiveProject;
+        get => ProjectListState.Value.Projects.FirstOrDefault(p => p.Id ==TimerState.Value.ActiveProject?.Id) ?? 
+               ProjectListState.Value.Projects.FirstOrDefault() ;
         set
         {
             if (value is not null)
@@ -85,7 +85,8 @@
             {
                 _uiRefreshTimer.Enabled = TimerState.Value.Activity is TimerActivity.Active;
             });
-        Dispatcher.Dispatch((new LoadStateAction()));
+        Dispatcher.Dispatch(new FetchProjectsAction());
+        Dispatcher.Dispatch(new LoadStateAction());
     }
 
     private void OnUiRefreshTimer(object? sender, ElapsedEventArgs e)
