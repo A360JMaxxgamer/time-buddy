@@ -58,7 +58,7 @@ public static class ServiceCollectionExtension
         new Project()
         {
             Name = "Homework",
-            CreatedAd = DateTime.Now,
+            CreatedAt = DateTime.Now,
             TimeFrames = new List<TimeFrame>()
             {
                 {
@@ -73,7 +73,7 @@ public static class ServiceCollectionExtension
         new Project()
         {
             Name = "Work",
-            CreatedAd = DateTime.Now
+            CreatedAt = DateTime.Now
         }
     };
 }

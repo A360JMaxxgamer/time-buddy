@@ -6,7 +6,7 @@ public class Project
 
     public string Name { get; set; }
 
-    public DateTime CreatedAd { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public virtual List<TimeFrame> TimeFrames { get; set; } = new();
 

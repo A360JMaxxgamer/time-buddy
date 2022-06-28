@@ -33,4 +33,16 @@ public class Effects
             dispatcher.Dispatch(new SetIsLoadingAction(false));
         }
     }
+
+    [EffectMethod]
+    public async Task HandleCreateProjectAction(CreateProjectAction action, IDispatcher dispatcher)
+    {
+        await _timeBuddyContext.Projects.AddAsync(new()
+        {
+            Name = action.Name,
+            CreatedAt = DateTime.UtcNow
+        });
+        await _timeBuddyContext.SaveChangesAsync();
+        dispatcher.Dispatch(new FetchProjectsAction());
+    }
 }
