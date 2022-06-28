@@ -10,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services
+    .AddLogging()
     .AddMudServices()
     .AddTimeBuddyServices()
     .AddScoped<ILocalStorageService, BlazorLocalStorageService>()

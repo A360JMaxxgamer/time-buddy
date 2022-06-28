@@ -18,12 +18,14 @@ public static class MauiProgram
 #endif
 
         builder.Services
+            .AddLogging()
             .AddMudServices()
             .AddTimeBuddyServices()
-            .AddLocalStorageService(_ => new DirectoryInfo($"{FileSystem.Current.AppDataDirectory}"))
+            .AddLocalStorageService(_ => new DirectoryInfo($"{FileSystem.AppDataDirectory}"))
             .AddTimeBuddyContext($"{FileSystem.Current.AppDataDirectory}/timeBuddy.db")
             .AddStateManagement();
 
+        
         return builder.Build();
     }
 }

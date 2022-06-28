@@ -1,5 +1,6 @@
 ﻿using Fluxor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TimeBuddy.Core.Contexts;
 using TimeBuddy.Core.Services;
 
@@ -9,13 +10,19 @@ public class Effects
 {
     private const string StorageKey = "TimerState";
     private readonly ILocalStorageService _localStorageService;
+    private readonly ILogger<Effects> _logger;
     private readonly TimeBuddyContext _timeBuddyContext;
     private readonly ITimerService _timerService;
     private readonly IState<TimerState> _timerState;
 
-    public Effects(TimeBuddyContext timeBuddyContext, ITimerService timerService, IState<TimerState> timerState,
+    public Effects(
+        ILogger<Effects> logger,
+        TimeBuddyContext timeBuddyContext, 
+        ITimerService timerService, 
+        IState<TimerState> timerState,
         ILocalStorageService localStorageService)
     {
+        _logger = logger;
         _timeBuddyContext = timeBuddyContext;
         _timerService = timerService;
         _timerState = timerState;
@@ -30,9 +37,9 @@ public class Effects
             var state = await _localStorageService.LoadAsync<TimerState>(StorageKey);
             dispatcher.Dispatch(new SetLoadedStateAction(state));
         }
-        catch (ArgumentNullException e)
+        catch (Exception e)
         {
-            // Todo logging
+            _logger.LogError(e, "Loading timer state failed");
         }
     }
 
