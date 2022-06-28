@@ -20,6 +20,7 @@ public class Effects
         {
             dispatcher.Dispatch(new SetIsloadingAction(true));
             var project = await _timeBuddyContext.Projects
+                .AsNoTracking()
                 .Include(p => p.TimeFrames)
                 .FirstOrDefaultAsync(p => p.Id == action.ProjectId);
             if (project is not null)

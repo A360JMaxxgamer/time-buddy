@@ -19,7 +19,9 @@ public class Effects
         try
         {
             dispatcher.Dispatch(new SetIsLoadingAction(true));
-            var projects = await _timeBuddyContext.Projects.ToListAsync();
+            var projects = await _timeBuddyContext.Projects
+                .AsNoTracking()
+                .ToListAsync();
             dispatcher.Dispatch(new SetProjectsAction(projects));
         }
         catch (Exception e)
