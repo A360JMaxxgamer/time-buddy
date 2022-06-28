@@ -12,10 +12,10 @@
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
 
         <!-- Display name -->
-        <ApplicationTitle>TimeBuddz.Blayor</ApplicationTitle>
+        <ApplicationTitle>Time Buddy</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.maxxgamer.timebuddy.blazor</ApplicationId>
+        <ApplicationId>com.maxxgamer.timebuddy</ApplicationId>
         <ApplicationIdGuid>24190FA7-1FC4-4B48-A153-31F7004EBAF3</ApplicationIdGuid>
 
         <!-- Versions -->
