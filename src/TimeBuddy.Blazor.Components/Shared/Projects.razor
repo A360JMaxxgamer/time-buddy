@@ -3,7 +3,7 @@
 @inject IDispatcher Dispatcher
 @inject NavigationManager NavigationManager
 
-<MudList>
+<MudList Class="d-flex flex-column flex-grow-1 ma-5">
     @foreach (var project in State.Value.Projects)
     {
         <MudListItem OnClick="() => OpenProject(project.Id)">

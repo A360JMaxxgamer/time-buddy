@@ -1,5 +1,4 @@
 using MudBlazor.Services;
-using TimeBuddy.Blazor.Data;
 using TimeBuddy.Blazor.Services;
 using TimeBuddy.Core;
 using TimeBuddy.Core.Services;
@@ -9,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services
     .AddMudServices()
