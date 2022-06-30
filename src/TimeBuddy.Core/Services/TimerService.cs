@@ -16,14 +16,20 @@ internal class TimerService : ITimerService
     }
 
     /// <inheritdoc />
+    public Task LoadAsync(TimerState state)
+    {
+        _currentTimeFrames.Clear();
+        _currentTimeFrames.AddRange(state.RecordTimeFrames);
+        _lastStartTime = state.LastStart;
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
     public Task<DateTime> PlayAsync()
     {
         _lastStartTime = DateTime.Now;
         return Task.FromResult(_lastStartTime);
     }
-
-    /// <inheritdoc />
-    public Task ReadStateFromStorage() => Task.CompletedTask;
 
     /// <inheritdoc />
     public Task<TimeFrame[]> StopAsync()

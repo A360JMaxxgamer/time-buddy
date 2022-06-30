@@ -35,6 +35,7 @@ public class Effects
         try
         {
             var state = await _localStorageService.LoadAsync<TimerState>(StorageKey);
+            await _timerService.LoadAsync(state);
             dispatcher.Dispatch(new SetLoadedStateAction(state));
         }
         catch (Exception e)
