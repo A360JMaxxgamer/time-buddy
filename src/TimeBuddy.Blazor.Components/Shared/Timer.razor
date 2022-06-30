@@ -11,46 +11,70 @@
 @inject IState<TimerState> TimerState
 
 <MudPaper Class="d-flex flex-grow-1 flex-row">
+
     @if (ProjectListState.Value.IsLoading)
     {
         <MudSkeleton Class="ma-5" SkeletonType="SkeletonType.Rectangle"></MudSkeleton>
     }
     else
     {
-        <MudSelect Class="ma-5 flex-initial"
-                   Style="min-width: 200px"
-                   T="Project" 
-                   Disabled="@(TimerState.Value.Activity is not TimerActivity.Stopped)"
-                   Label="Current Project" 
-                   @bind-Value="ActiveProject">
-            @foreach (var project in ProjectListState.Value.Projects)
-            {
-                <MudSelectItem Value="project">@project.Name</MudSelectItem>
+        <MudGrid Class="d-flex align-center justify-center">
+            <MudItem xs="5">
+                <MudSelect T="Project"
+                           Disabled="@(TimerState.Value.Activity is not TimerActivity.Stopped)"
+                           Label="Current Project"
+                           @bind-Value="ActiveProject">
+                    @foreach (var project in ProjectListState.Value.Projects)
+                    {
+                        <MudSelectItem Value="project">@project.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            
+            <MudItem xs="3">
+                <MudText hidden="@(TimerState.Value.Activity is not TimerActivity.Active)">
+                    @TimerState.Value.ElapsedTime.ToString(@"hh\:mm\:ss")
+                </MudText>
+            </MudItem>
+
+            <MudItem xs="4">
+                <div class="d-flex align-content-space-between justify-center align-content-center">
+                    <MudIconButton Icon="@Icons.Filled.PlayArrow"
+                                   Color="Color.Primary"
+                                   OnClick="() => Dispatcher.Dispatch(new PlayAction())"
+                                   hidden="@(TimerState.Value.Activity is TimerActivity.Active || TimerState.Value.ActiveProject is null)"/>
+                    <MudIconButton Icon="@Icons.Filled.Pause"
+                                   Color="Color.Primary"
+                                   OnClick="() => Dispatcher.Dispatch(new PauseAction())"
+                                   hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
+                    <MudIconButton Icon="@Icons.Filled.Stop"
+                                   Color="Color.Primary"
+                                   OnClick="() => Dispatcher.Dispatch(new StopAction())"
+                                   hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
+                </div>
+            </MudItem>
+            
+            @{
+                if (TimerState.Value.ActiveProject is null)
+                    return;
+
+                var today = DateOnly.FromDateTime(DateTime.Today);
+                var targetHours = TimerState.Value.ActiveProject.Settings.TargetHoursPerDay;
+                var recordedToday = TimerState.Value.ActiveProject.TimeFrames
+                    .Where(t => DateOnly.FromDateTime(t.StartDate.Date) == today)
+                    .Union(TimerState.Value.RecordTimeFrames)
+                    .Sum(t => t.Duration.TotalHours);
+                var totalHoursToday = recordedToday + TimerState.Value.ElapsedTime.TotalHours;
+
+                <MudItem xs="12">
+                    <MudProgressLinear Min="0" Max="targetHours" Value="totalHoursToday" Color="Color.Secondary"/>
+                </MudItem>
             }
-        </MudSelect>
+
+        </MudGrid>
     }
-    
-    <MudDivider FlexItem="true" Vertical="true" />
-    
-    <MudText Class="ma-auto justify-center align-content-center"
-             hidden="@(TimerState.Value.Activity is not TimerActivity.Active)">
-        @TimerState.Value.ElapsedTime.ToString(@"hh\:mm\:ss")
-    </MudText>
-    
-    <div class="d-flex flex-row flex-wrap justify-center align-content-center">
-        <MudIconButton Class="ma-5" 
-                       Icon="@Icons.Filled.PlayArrow"
-                       OnClick="() => Dispatcher.Dispatch(new PlayAction())"
-                       hidden="@(TimerState.Value.Activity is TimerActivity.Active || TimerState.Value.ActiveProject is null)"/>
-        <MudIconButton Class="ma-5"
-                       Icon="@Icons.Filled.Pause"
-                       OnClick="() => Dispatcher.Dispatch(new PauseAction())"
-                       hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
-        <MudIconButton Class="ma-35"
-                       Icon="@Icons.Filled.Stop" 
-                       OnClick="() => Dispatcher.Dispatch(new StopAction())"
-                       hidden="@(TimerState.Value.Activity is not TimerActivity.Active)"/>
-    </div>
+
+
 
 </MudPaper>
 

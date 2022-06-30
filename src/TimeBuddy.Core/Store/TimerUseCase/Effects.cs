@@ -77,8 +77,9 @@ public class Effects
             var state = TimerState.New();
             await SaveStateLocally(state with
             {
-                ActiveProject = _timerState.Value?.ActiveProject
+                ActiveProject = project
             });
+            dispatcher.Dispatch(new SetActiveProjectAction(project));
         }
     }
 
@@ -89,6 +90,7 @@ public class Effects
         if (_timerState.Value.ActiveProject is not null)
             dispatcher.Dispatch(new SaveAction(_timerState.Value.ActiveProject, recordedTimeFrames));
         dispatcher.Dispatch(new SetActivityAction(TimerActivity.Stopped));
+
     }
 
     private async Task SaveStateLocally(TimerState state)
