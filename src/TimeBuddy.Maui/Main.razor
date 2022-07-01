@@ -1,0 +1,14 @@
+﻿@using System.Reflection
+@using TimeBuddy.Blazor.Components.Shared
+@using MudBlazor.Extensions
+<Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[]{ typeof(TimeBuddy.Blazor.Components._Imports).Assembly}">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

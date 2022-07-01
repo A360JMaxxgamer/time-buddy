@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+#
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7CE25D55-5113-4AD4-931A-CB89B579CF3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Core", "src\TimeBuddy.Core\TimeBuddy.Core.csproj", "{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Maui", "src\TimeBuddy.Maui\TimeBuddy.Maui.csproj", "{D0912997-7D95-4E7F-8633-529A3BB92FD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor.Components", "src\TimeBuddy.Blazor.Components\TimeBuddy.Blazor.Components.csproj", "{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor", "src\TimeBuddy.Blazor\TimeBuddy.Blazor.csproj", "{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{D7AEDE05-719A-4418-9B46-AB8CB52EDBF4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0912997-7D95-4E7F-8633-529A3BB92FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0912997-7D95-4E7F-8633-529A3BB92FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0912997-7D95-4E7F-8633-529A3BB92FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0912997-7D95-4E7F-8633-529A3BB92FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C2ED490-A1EC-4536-8171-187EAEFBB1D7} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+		{D0912997-7D95-4E7F-8633-529A3BB92FD2} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+	EndGlobalSection
+EndGlobal

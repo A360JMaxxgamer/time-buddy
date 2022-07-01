@@ -1,0 +1,31 @@
+﻿@page "/projects/{ProjectId:int}"
+@using TimeBuddy.Core.Store.ProjectUseCase
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ProjectState> State
+
+@if (State.Value.Project is null || State.Value.IsLoading)
+{
+    <MudProgressCircular Indeterminate="true"/>
+}
+else
+{
+    <MudContainer Class="d-flex flex-column ma-5">
+        <h4 Class="mb-5">@State.Value.Project.Name</h4>
+        <TimeFrameTimeLine TimeFrames="@State.Value.Project.TimeFrames"/>
+    </MudContainer>
+}
+
+@code {
+
+    [Parameter]
+    public int ProjectId { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        Dispatcher.Dispatch(new LoadProjectAction(ProjectId));
+    }
+    
+}

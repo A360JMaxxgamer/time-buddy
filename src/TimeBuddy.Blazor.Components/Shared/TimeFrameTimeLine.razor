@@ -1,0 +1,42 @@
+﻿@using TimeBuddy.Core.Models
+
+<MudExpansionPanels MultiExpansion="false">
+    @foreach (var group in GetTimeFramesByDate(@TimeFrames))
+    {
+        <MudExpansionPanel Text="@GetHeader(group)">
+            <MudTimeline>
+                @foreach (var timeFrame in group)
+                {
+                    <MudTimelineItem Color="Color.Primary" TimelineAlign="TimelineAlign.End">
+                        <MudText>@timeFrame.TimeFrame.StartDate</MudText>
+                    </MudTimelineItem>
+                    <MudTimelineItem Color="Color.Secondary" TimelineAlign="TimelineAlign.End">
+                        <MudText>@(timeFrame.TimeFrame.StartDate + timeFrame.TimeFrame.Duration)</MudText>
+                    </MudTimelineItem>
+                }
+            </MudTimeline>
+        </MudExpansionPanel>
+    }
+</MudExpansionPanels>
+@code {
+
+    [Parameter] 
+    public IEnumerable<TimeFrame> TimeFrames { get; set; }= Enumerable.Empty<TimeFrame>();
+    
+    private static IEnumerable<IGrouping<DateOnly, DateTimeFrame>> GetTimeFramesByDate(IEnumerable<TimeFrame> timeFrames) => timeFrames
+        .Select(timeframe =>
+        {
+            var date = new DateOnly(timeframe.StartDate.Year, timeframe.StartDate.Month, timeframe.StartDate.Day);
+            return new DateTimeFrame(date, timeframe);
+        })
+        .OrderBy(dateTimeFrame => dateTimeFrame.Date)
+        .GroupBy(dateTimeFrame => dateTimeFrame.Date);
+
+    private record DateTimeFrame(DateOnly Date, TimeFrame TimeFrame);
+
+    private string GetHeader(IGrouping<DateOnly, DateTimeFrame> group)
+    {
+        var worked = TimeSpan.FromSeconds(group.Sum(val => val.TimeFrame.Duration.TotalSeconds));
+        return $"{group.Key.ToShortDateString()} ({worked.TotalHours:n2})";
+    }
+}

@@ -1,0 +1,42 @@
+﻿@inherits FluxorComponent
+@inject IState<ProjectListState> State
+@inject IDispatcher Dispatcher
+@inject NavigationManager NavigationManager
+
+<MudContainer Class="d-flex flex-column flex-grow-1 ma-5">
+    <MudList Class="d-flex flex-grow-1 flex-column overflow-y-auto" Style="height: 0">
+        @foreach (var project in State.Value.Projects.OrderBy(p => p.Name))
+        {
+            <MudListItem OnClick="() => OpenProject(project.Id)">
+                <MudText>@project.Name</MudText>
+            </MudListItem>
+        }
+    </MudList>
+
+    <MudToolBar Class="justify-center align-items-center">
+        <MudTextField T="string" Label="New project name" @bind-Value="_projectName" DebounceInterval="200"/>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" Disabled="@(string.IsNullOrEmpty(_projectName))" OnClick="CreateProject"/>
+    </MudToolBar>
+</MudContainer>
+
+@code
+{
+    private string _projectName = string.Empty;
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new FetchProjectsAction());
+    }
+
+    private void OpenProject(int id)
+    {
+        NavigationManager.NavigateTo($"/projects/{id}");
+    }
+
+    private void CreateProject()
+    {
+        Dispatcher.Dispatch(new CreateProjectAction(_projectName));
+        _projectName = string.Empty;
+    }
+}

@@ -1,0 +1,18 @@
+﻿@using TimeBuddy.Core.Models
+
+<MudTable T="TimeFrame" Items="TimeFrames">
+    <HeaderContent>
+        <MudTh>Started at</MudTh>
+        <MudTh>Finished at</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Started at">@context.StartDate</MudTd>
+        <MudTd DataLabel="Finished at">@(context.StartDate + context.Duration)</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    [Parameter]
+    public IEnumerable<TimeFrame> TimeFrames { get; set; } = Enumerable.Empty<TimeFrame>();
+
+}
