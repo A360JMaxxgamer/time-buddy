@@ -10,7 +10,6 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
-        <PublishTrimmed>false</PublishTrimmed>
 
         <!-- Display name -->
         <ApplicationTitle>Time Buddy</ApplicationTitle>
