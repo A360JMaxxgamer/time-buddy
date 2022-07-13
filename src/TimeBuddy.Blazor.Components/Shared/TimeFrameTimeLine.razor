@@ -1,36 +1,59 @@
 ﻿@using TimeBuddy.Core.Models
+@using Microsoft.VisualBasic
+@using MudBlazor.Extensions
+@using System.Collections
 
-<MudExpansionPanels MultiExpansion="false">
-    @foreach (var group in GetTimeFramesByDate(@TimeFrames))
-    {
-        <MudExpansionPanel Text="@GetHeader(group)">
-            <MudTimeline>
-                @foreach (var timeFrame in group)
+<MudCard Class="d-flex flex-column align-items-center justify-center gap-5">
+    <MudCardContent>
+        <MudGrid Class="d-flex flex-row align-items-center justify-center" Spacing="5" Justify="Justify.SpaceBetween">
+            <MudIconButton Icon="@Icons.Filled.ArrowBack" OnClick="() => SelectedDate -= TimeSpan.FromDays(7)"/>
+            <MudDatePicker @bind-Date="SelectedDate"/>
+            <MudIconButton Icon="@Icons.Filled.ArrowForward" OnClick="() => SelectedDate += TimeSpan.FromDays(7)"/>
+        </MudGrid>
+    
+        @if (SelectedDate.HasValue)
+        {
+            var weekStart = SelectedDate.Value.Date.StartOfWeek(DayOfWeek.Monday);
+            var timeFrames = GetTimeFramesOfWeek(TimeFrames, weekStart, weekStart + TimeSpan.FromDays(7));
+            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical">
+                @for (var i = 0; i < 5; i++)
                 {
-                    <MudTimelineItem Color="Color.Primary" TimelineAlign="TimelineAlign.End">
-                        <MudText>@timeFrame.TimeFrame.StartDate</MudText>
-                    </MudTimelineItem>
-                    <MudTimelineItem Color="Color.Secondary" TimelineAlign="TimelineAlign.End">
-                        <MudText>@(timeFrame.TimeFrame.StartDate + timeFrame.TimeFrame.Duration)</MudText>
-                    </MudTimelineItem>
+    
+                    var dateOfDay = weekStart + TimeSpan.FromDays(i);
+                    var dateOnly = new DateOnly(dateOfDay.Date.Year, dateOfDay.Month, dateOfDay.Day);
+                    var timeFrame = timeFrames
+                        .Where(group => group.Key == dateOnly)
+                        .SelectMany(group => group)
+                        .ToArray();
+    
+                    var workedHours = timeFrame.Sum(t => t.TimeFrame.Duration.TotalHours);
+    
+                    <MudTimelineItem Color="GetDateColor(workedHours)" TimelineAlign="TimelineAlign.End">@dateOnly.DayOfWeek</MudTimelineItem>
                 }
             </MudTimeline>
-        </MudExpansionPanel>
-    }
-</MudExpansionPanels>
+        }
+    </MudCardContent>
+</MudCard>
+
 @code {
+
+    public DateTime? SelectedDate { get; set; } = DateTime.Now;
 
     [Parameter] 
     public IEnumerable<TimeFrame> TimeFrames { get; set; }= Enumerable.Empty<TimeFrame>();
-    
-    private static IEnumerable<IGrouping<DateOnly, DateTimeFrame>> GetTimeFramesByDate(IEnumerable<TimeFrame> timeFrames) => timeFrames
+
+    [Parameter]
+    public double TargetHoursPerDay { get; set; } = 8;
+
+    private IGrouping<DateOnly, DateTimeFrame>[] GetTimeFramesOfWeek(IEnumerable<TimeFrame> timeFrames, DateTime start, DateTime end) => timeFrames
+        .Where(t => t.StartDate >= start && t.StartDate < end)
         .Select(timeframe =>
         {
             var date = new DateOnly(timeframe.StartDate.Year, timeframe.StartDate.Month, timeframe.StartDate.Day);
             return new DateTimeFrame(date, timeframe);
         })
-        .OrderBy(dateTimeFrame => dateTimeFrame.Date)
-        .GroupBy(dateTimeFrame => dateTimeFrame.Date);
+        .GroupBy(dateTimeFrame => dateTimeFrame.Date)
+        .ToArray();
 
     private record DateTimeFrame(DateOnly Date, TimeFrame TimeFrame);
 
@@ -39,4 +62,20 @@
         var worked = TimeSpan.FromSeconds(group.Sum(val => val.TimeFrame.Duration.TotalSeconds));
         return $"{group.Key.ToShortDateString()} ({worked.TotalHours:n2})";
     }
+
+    private Color GetDateColor(double workedHours)
+    {
+        var color = Color.Error;
+
+        if (workedHours > TargetHoursPerDay)
+        {
+            color = Color.Success;
+        }
+        if (workedHours > 0 && workedHours < TargetHoursPerDay)
+        {
+            color = Color.Warning;
+        }
+        return color;
+    }
+
 }
