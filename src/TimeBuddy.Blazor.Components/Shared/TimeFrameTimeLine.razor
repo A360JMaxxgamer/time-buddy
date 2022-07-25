@@ -4,33 +4,46 @@
 @using System.Collections
 
 <MudCard Class="d-flex flex-column align-items-center justify-center gap-5">
+    <MudCardHeader>
+        <h3>Week</h3>
+    </MudCardHeader>
     <MudCardContent>
         <MudGrid Class="d-flex flex-row align-items-center justify-center" Spacing="5" Justify="Justify.SpaceBetween">
             <MudIconButton Icon="@Icons.Filled.ArrowBack" OnClick="() => SelectedDate -= TimeSpan.FromDays(7)"/>
             <MudDatePicker @bind-Date="SelectedDate"/>
             <MudIconButton Icon="@Icons.Filled.ArrowForward" OnClick="() => SelectedDate += TimeSpan.FromDays(7)"/>
         </MudGrid>
-    
+
         @if (SelectedDate.HasValue)
         {
             var weekStart = SelectedDate.Value.Date.StartOfWeek(DayOfWeek.Monday);
             var timeFrames = GetTimeFramesOfWeek(TimeFrames, weekStart, weekStart + TimeSpan.FromDays(7));
             <MudTimeline TimelineOrientation="TimelineOrientation.Vertical">
-                @for (var i = 0; i < 5; i++)
+                @for (var i = 0; i < 7; i++)
                 {
-    
+
                     var dateOfDay = weekStart + TimeSpan.FromDays(i);
                     var dateOnly = new DateOnly(dateOfDay.Date.Year, dateOfDay.Month, dateOfDay.Day);
                     var timeFrame = timeFrames
                         .Where(group => group.Key == dateOnly)
                         .SelectMany(group => group)
                         .ToArray();
-    
+
                     var workedHours = timeFrame.Sum(t => t.TimeFrame.Duration.TotalHours);
-    
-                    <MudTimelineItem Color="GetDateColor(workedHours)" TimelineAlign="TimelineAlign.End">@dateOnly.DayOfWeek</MudTimelineItem>
+                    var workedTimeSpan = TimeSpan.FromHours(workedHours);
+                    var color = GetDateColor(workedHours);
+                    <MudTimelineItem Color="color" TimelineAlign="TimelineAlign.End">
+                        <ItemOpposite>@workedTimeSpan.Hours h @workedTimeSpan.Minutes min</ItemOpposite>
+                        <ItemContent>
+                            <MudText>@dateOnly.DayOfWeek</MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
                 }
             </MudTimeline>
+            var weekTimeSpan = TimeSpan.FromHours(timeFrames
+                .SelectMany(t => t)
+                .Sum(t => t.TimeFrame.Duration.TotalHours));
+            <MudText>Total: @((int) weekTimeSpan.TotalHours) h @weekTimeSpan.Minutes min</MudText>
         }
     </MudCardContent>
 </MudCard>
