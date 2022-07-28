@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TimeBuddy.Core.Contexts;
+using TimeBuddy.Core.Imports;
 using TimeBuddy.Core.Models;
 using TimeBuddy.Core.Services;
 
@@ -44,6 +45,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddTimeBuddyServices(this IServiceCollection services)
     {
         services.AddSingleton<ITimerService, TimerService>();
+        services.AddTransient<IImporter, SwipeTimesImporter>();
         return services;
     }
 

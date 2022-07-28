@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using TimeBuddy.Core.Imports
+@inject IImporter Importer
+
+<InputFile id="fileInput" OnChange="UploadFiles" hidden />
+<MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" Href="/"/>
+<MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.Upload" Color="Color.Inherit" Edge="Edge.Start" for="fileInput"/>
+<MudText Typo="Typo.h5" Class="ml-3">Time Buddy</MudText>
+@code {
+    private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        await Importer.ImportAsync(e.File.OpenReadStream());
+    } 
+}
