@@ -2,7 +2,7 @@
 
 public record FetchProjectsAction();
 
-public record SetProjectsAction(IReadOnlyList<Project> Projects);
+public record SetProjectsAction(IReadOnlyList<IProjectBase> Projects);
 
 public record SetIsLoadingAction(bool IsLoading);
 

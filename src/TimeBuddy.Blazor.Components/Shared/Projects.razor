@@ -30,7 +30,7 @@
         Dispatcher.Dispatch(new FetchProjectsAction());
     }
 
-    private void OpenProject(int id)
+    private void OpenProject(Guid id)
     {
         NavigationManager.NavigateTo($"/projects/{id}");
     }

@@ -1,0 +1,21 @@
+query GetProjectBases{
+    projects {
+        nodes {
+            ...ProjectBase
+        }
+    }
+}
+
+mutation CreateProject($projectInput: CreateProjectInput!) {
+    createProject(input: $projectInput) {
+        project {
+            ...ProjectBase
+        }
+    }
+}
+
+fragment ProjectBase on Project {
+    id
+    name
+    createdAt
+}

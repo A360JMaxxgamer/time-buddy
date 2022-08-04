@@ -1,14 +1,15 @@
 ﻿using Fluxor;
+using StrawberryShake;
 
 namespace TimeBuddy.Blazor.Components.Store.ProjectListUseCase;
 
 public class Effects
 {
-    private readonly TimeBuddyContext _timeBuddyContext;
+    private readonly IApiClient _apiClient;
 
-    public Effects(TimeBuddyContext timeBuddyContext)
+    public Effects(IApiClient apiClient)
     {
-        _timeBuddyContext = timeBuddyContext;
+        _apiClient = apiClient;
     }
 
     [EffectMethod]
@@ -17,10 +18,12 @@ public class Effects
         try
         {
             dispatcher.Dispatch(new SetIsLoadingAction(true));
-            var projects = await _timeBuddyContext.Projects
-                .AsNoTracking()
-                .ToListAsync();
-            dispatcher.Dispatch(new SetProjectsAction(projects));
+            var projects = await _apiClient.GetProjectBases.ExecuteAsync();
+
+            if (projects.IsSuccessResult() && projects.Data?.Projects?.Nodes is not null)
+            {
+                dispatcher.Dispatch(new SetProjectsAction(projects.Data.Projects.Nodes));
+            }
         }
         catch (Exception e)
         {
@@ -35,12 +38,10 @@ public class Effects
     [EffectMethod]
     public async Task HandleCreateProjectAction(CreateProjectAction action, IDispatcher dispatcher)
     {
-        await _timeBuddyContext.Projects.AddAsync(new()
+        await _apiClient.CreateProject.ExecuteAsync(new CreateProjectInput()
         {
-            Name = action.Name,
-            CreatedAt = DateTime.UtcNow
+            ProjectName = action.Name
         });
-        await _timeBuddyContext.SaveChangesAsync();
         dispatcher.Dispatch(new FetchProjectsAction());
     }
 }
