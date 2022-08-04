@@ -1,0 +1,54 @@
+using Microsoft.EntityFrameworkCore;
+using TimeBuddy.Service.Contexts;
+using TimeBuddy.Service.GraphQL.Exceptions;
+using TimeBuddy.Service.Models;
+
+namespace TimeBuddy.Service.GraphQL;
+
+public class Mutation
+{
+    /// <summary>
+    /// Create a new project
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="projectName">Name of the project</param>
+    /// <returns></returns>
+    public async Task<Project> CreateProjectAsync(TimeBuddyContext dbContext, string projectName)
+    {
+        var project = new Project()
+        {
+            Name = projectName,
+            CreatedAt = DateTime.UtcNow
+        };
+        var tracking = await dbContext.AddAsync(project);
+        await dbContext.SaveChangesAsync();
+        return tracking.Entity;
+    }
+
+    /// <summary>
+    /// Add timeframes to a project
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="projectId">Id of the project</param>
+    /// <param name="timeFrames">TimeFrames to add</param>
+    /// <returns></returns>
+    /// <exception cref="ProjectNotFoundException"></exception>
+    [Error(typeof(ProjectNotFoundException))]
+    public async Task<Project> AddTimeFramesToProject(TimeBuddyContext dbContext, Guid projectId, TimeFrameInput[] timeFrames)
+    {
+        var project = await dbContext.Projects.FirstOrDefaultAsync(proj => proj.Id == projectId);
+
+        if (project is null)
+            throw new ProjectNotFoundException(projectId);
+        
+        project.TimeFrames.AddRange(timeFrames.Select(t => new TimeFrame
+        {
+            StartDate = t.StartDate,
+            Duration = t.Duration
+        }));
+        await dbContext.SaveChangesAsync();
+        return project;
+    }
+}
+
+public record TimeFrameInput(DateTime StartDate, TimeSpan Duration);
