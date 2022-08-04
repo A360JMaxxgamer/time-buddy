@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using TimeBuddy.Core.Services;
+using TimeBuddy.Blazor.Components.Services;
 
 namespace TimeBuddy.Blazor.Services;
 

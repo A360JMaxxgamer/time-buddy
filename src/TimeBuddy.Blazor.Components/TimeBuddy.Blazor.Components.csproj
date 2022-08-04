@@ -10,10 +10,6 @@
         <SupportedPlatform Include="browser" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\TimeBuddy.Core\TimeBuddy.Core.csproj" />
-    </ItemGroup>
-
 
     <ItemGroup>
         <PackageReference Include="Fluxor.Blazor.Web" Version="5.4.0" />

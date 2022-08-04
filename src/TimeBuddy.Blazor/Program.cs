@@ -1,7 +1,7 @@
 using MudBlazor.Services;
+using TimeBuddy.Blazor.Components.Services;
 using TimeBuddy.Blazor.Services;
 using TimeBuddy.Core;
-using TimeBuddy.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,6 @@ builder.Services
     .AddMudServices()
     .AddTimeBuddyServices()
     .AddScoped<ILocalStorageService, BlazorLocalStorageService>()
-    .AddTimeBuddyContext("timeBuddy.db")
     .AddStateManagement();
 
 var app = builder.Build();
