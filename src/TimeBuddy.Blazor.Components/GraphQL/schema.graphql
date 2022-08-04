@@ -1,0 +1,275 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Project settings e.g. hours per day"
+type ProjectSettings {
+  "Identifier"
+  id: UUID!
+  "Target hours to record per day"
+  targetHoursPerDay: Float!
+}
+
+type Query {
+  "Get a list of projects"
+  projects("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProjectSortInput!] where: ProjectFilterInput): ProjectsConnection
+}
+
+type Mutation {
+  "Create a new project"
+  createProject(input: CreateProjectInput!): CreateProjectPayload!
+  "Add timeframes to a project"
+  addTimeFramesToProject(input: AddTimeFramesToProjectInput!): AddTimeFramesToProjectPayload!
+}
+
+scalar UUID
+
+"A project contains various settings and a list of recorded timeframes"
+input ProjectSortInput {
+  "Identifier"
+  id: SortEnumType
+  "A user set name"
+  name: SortEnumType
+  "Creation date"
+  createdAt: SortEnumType
+  "Project settings e.g. hours per day"
+  settings: ProjectSettingsSortInput
+}
+
+"A project contains various settings and a list of recorded timeframes"
+input ProjectFilterInput {
+  and: [ProjectFilterInput!]
+  or: [ProjectFilterInput!]
+  "Identifier"
+  id: ComparableGuidOperationFilterInput
+  "A user set name"
+  name: StringOperationFilterInput
+  "Creation date"
+  createdAt: ComparableDateTimeOperationFilterInput
+  "All recorded timeframes"
+  timeFrames: ListFilterInputTypeOfTimeFrameFilterInput
+  "Project settings e.g. hours per day"
+  settings: ProjectSettingsFilterInput
+}
+
+"A connection to a list of items."
+type ProjectsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ProjectsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Project!]
+}
+
+type ProjectNotFoundError implements Error {
+  message: String!
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+"Project settings e.g. hours per day"
+input ProjectSettingsSortInput {
+  "Identifier"
+  id: SortEnumType
+  "Id of the parent project"
+  projectId: SortEnumType
+  "Target hours to record per day"
+  targetHoursPerDay: SortEnumType
+  "Navigation property for project"
+  project: ProjectSortInput
+}
+
+input ComparableGuidOperationFilterInput {
+  eq: UUID
+  neq: UUID
+  in: [UUID!]
+  nin: [UUID!]
+  gt: UUID
+  ngt: UUID
+  gte: UUID
+  ngte: UUID
+  lt: UUID
+  nlt: UUID
+  lte: UUID
+  nlte: UUID
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+input ComparableDateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime!]
+  nin: [DateTime!]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input ListFilterInputTypeOfTimeFrameFilterInput {
+  all: TimeFrameFilterInput
+  none: TimeFrameFilterInput
+  some: TimeFrameFilterInput
+  any: Boolean
+}
+
+"Project settings e.g. hours per day"
+input ProjectSettingsFilterInput {
+  and: [ProjectSettingsFilterInput!]
+  or: [ProjectSettingsFilterInput!]
+  "Identifier"
+  id: ComparableGuidOperationFilterInput
+  "Id of the parent project"
+  projectId: ComparableGuidOperationFilterInput
+  "Target hours to record per day"
+  targetHoursPerDay: ComparableDoubleOperationFilterInput
+  "Navigation property for project"
+  project: ProjectFilterInput
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "Indicates whether more edges exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more edges exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+}
+
+"A project contains various settings and a list of recorded timeframes"
+type Project {
+  "Identifier"
+  id: UUID!
+  "A user set name"
+  name: String!
+  "Creation date"
+  createdAt: DateTime!
+  "All recorded timeframes"
+  timeFrames: [TimeFrame!]!
+  "Project settings e.g. hours per day"
+  settings: ProjectSettings!
+}
+
+"An edge in a connection."
+type ProjectsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Project!
+}
+
+interface Error {
+  message: String!
+}
+
+"A recorded time frame"
+input TimeFrameFilterInput {
+  and: [TimeFrameFilterInput!]
+  or: [TimeFrameFilterInput!]
+  "Identifier"
+  id: ComparableGuidOperationFilterInput
+  "Start of recording"
+  startDate: ComparableDateTimeOperationFilterInput
+  "Total duration"
+  duration: ComparableTimeSpanOperationFilterInput
+}
+
+input ComparableDoubleOperationFilterInput {
+  eq: Float
+  neq: Float
+  in: [Float!]
+  nin: [Float!]
+  gt: Float
+  ngt: Float
+  gte: Float
+  ngte: Float
+  lt: Float
+  nlt: Float
+  lte: Float
+  nlte: Float
+}
+
+input ComparableTimeSpanOperationFilterInput {
+  eq: TimeSpan
+  neq: TimeSpan
+  in: [TimeSpan!]
+  nin: [TimeSpan!]
+  gt: TimeSpan
+  ngt: TimeSpan
+  gte: TimeSpan
+  ngte: TimeSpan
+  lt: TimeSpan
+  nlt: TimeSpan
+  lte: TimeSpan
+  nlte: TimeSpan
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+input TimeFrameInput {
+  startDate: DateTime!
+  duration: TimeSpan!
+}
+
+"A recorded time frame"
+type TimeFrame {
+  "Identifier"
+  id: UUID!
+  "Start of recording"
+  startDate: DateTime!
+  "Total duration"
+  duration: TimeSpan!
+}
+
+"The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
+scalar TimeSpan
+
+input CreateProjectInput {
+  "Name of the project"
+  projectName: String!
+}
+
+type CreateProjectPayload {
+  project: Project
+}
+
+input AddTimeFramesToProjectInput {
+  "Id of the project"
+  projectId: UUID!
+  "TimeFrames to add"
+  timeFrames: [TimeFrameInput!]!
+}
+
+union AddTimeFramesToProjectError = ProjectNotFoundError
+
+type AddTimeFramesToProjectPayload {
+  project: Project
+  errors: [AddTimeFramesToProjectError!]
+}
