@@ -41,9 +41,11 @@ internal class BlazorLocalStorageService : ILocalStorageService
 
 internal class GenericIndexedDb<T> : IndexedDb
 {
+#pragma warning disable CS8618
     public GenericIndexedDb(IJSRuntime jSRuntime, string name, int version) : base(jSRuntime, name, version) { }
+#pragma warning restore CS8618
 
-    public IndexedSet<IndexedEntry<T>> Values { get; set; }
+    public IndexedSet<IndexedEntry<T>> Values { get; set; } 
 }
 
 internal class IndexedEntry<T>
