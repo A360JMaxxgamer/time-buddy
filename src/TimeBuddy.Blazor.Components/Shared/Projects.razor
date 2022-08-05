@@ -1,4 +1,5 @@
-﻿@inherits FluxorComponent
+﻿@using TimeBuddy.Blazor.Components.Store.ProjectListUseCase
+@inherits FluxorComponent
 @inject IState<ProjectListState> State
 @inject IDispatcher Dispatcher
 @inject NavigationManager NavigationManager
@@ -29,7 +30,7 @@
         Dispatcher.Dispatch(new FetchProjectsAction());
     }
 
-    private void OpenProject(int id)
+    private void OpenProject(Guid id)
     {
         NavigationManager.NavigateTo($"/projects/{id}");
     }

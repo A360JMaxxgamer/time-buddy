@@ -1,0 +1,83 @@
+query GetProjectBases {
+    projects {
+        nodes {
+            ...ProjectBase
+        }
+    }
+}
+
+query GetProjectById($projectId: UUID!) {
+    project(where: { id: { eq: $projectId } }) {
+        ...ProjectDetailed
+    }
+}
+
+query GetProjectTimerData(
+    $projectId: UUID!
+    $start: DateTime!
+    $end: DateTime!
+) {
+    project(where: { id: { eq: $projectId } }) {
+        settings {
+            targetHoursPerDay
+        }
+        timeFrames(
+            where: {
+                and: [{ startDate: { gte: $start } }, { startDate: { lte: $end } }]
+            }
+        ) {
+            ...TimeFrame
+        }
+    }
+}
+
+mutation CreateProject($projectInput: CreateProjectInput!) {
+    createProject(input: $projectInput) {
+        project {
+            ...ProjectBase
+        }
+    }
+}
+
+mutation AddTimeFramesToProject(
+    $addTimeFramesInput: AddTimeFramesToProjectInput!
+) {
+    addTimeFramesToProject(input: $addTimeFramesInput) {
+        project {
+            ...ProjectDetailed
+        }
+        errors {
+            ...Error
+        }
+    }
+}
+
+fragment Error on Error {
+    message
+    __typename
+}
+
+fragment ProjectBase on Project {
+    id
+    name
+    createdAt
+}
+
+fragment ProjectDetailed on Project {
+    ...ProjectBase
+    timeFrames {
+        ...TimeFrame
+    }
+    settings {
+        ...ProjectSettings
+    }
+}
+
+fragment ProjectSettings on ProjectSettings {
+    targetHoursPerDay
+}
+
+fragment TimeFrame on TimeFrame {
+    startDate
+    duration
+}

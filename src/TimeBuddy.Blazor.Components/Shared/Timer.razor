@@ -1,8 +1,7 @@
-﻿@using TimeBuddy.Core.Models
-@using TimeBuddy.Core.Services
-@using TimeBuddy.Core.Store.TimerUseCase
-@using System.Reactive.Linq
+﻿@using System.Reactive.Linq
 @using System.Timers
+@using TimeBuddy.Blazor.Components.Store.ProjectListUseCase
+@using TimeBuddy.Blazor.Components.Store.TimerUseCase
 
 @inherits FluxorComponent
 
@@ -20,7 +19,7 @@
     {
         <MudGrid Class="d-flex align-center justify-center">
             <MudItem xs="5">
-                <MudSelect T="Project"
+                <MudSelect T="IProjectBase"
                            Disabled="@(TimerState.Value.Activity is not TimerActivity.Stopped)"
                            Label="Current Project"
                            @bind-Value="ActiveProject">
@@ -55,15 +54,16 @@
             </MudItem>
             
             @{
-                if (TimerState.Value.ActiveProject is null)
+                if (TimerState.Value.ActiveProject is null || TimerState.Value.ActiveProjectDetails is null)
                     return;
 
                 var today = DateOnly.FromDateTime(DateTime.Today);
-                var targetHours = TimerState.Value.ActiveProject.Settings.TargetHoursPerDay;
-                var recordedToday = TimerState.Value.ActiveProject.TimeFrames
+                var targetHours = TimerState.Value.ActiveProjectDetails.Settings.TargetHoursPerDay;
+                var recordedToday = TimerState.Value.ActiveProjectDetails.TimeFrames
                     .Where(t => DateOnly.FromDateTime(t.StartDate.Date) == today)
-                    .Union(TimerState.Value.RecordTimeFrames)
-                    .Sum(t => t.Duration.TotalHours);
+                    .Select(t => t.Duration.TotalHours)
+                    .Union(TimerState.Value.RecordTimeFrames.Select(t => t.Duration.TotalHours))
+                    .Sum(hours => hours);
                 var totalHoursToday = recordedToday + TimerState.Value.ElapsedTime.TotalHours;
 
                 <MudItem xs="12">
@@ -80,12 +80,11 @@
 
 
 @code {
-
-    private TimerActivity _lastActivity;
+    
     private System.Timers.Timer _uiRefreshTimer = new(333);
     private IDisposable? _stateObservable;
 
-    public Project? ActiveProject
+    public IProjectBase? ActiveProject
     {
         get => ProjectListState.Value.Projects.FirstOrDefault(p => p.Id ==TimerState.Value.ActiveProject?.Id) ?? 
                ProjectListState.Value.Projects.FirstOrDefault() ;

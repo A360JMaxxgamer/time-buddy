@@ -1,5 +1,5 @@
-﻿@page "/projects/{ProjectId:int}"
-@using TimeBuddy.Core.Store.ProjectUseCase
+﻿@page "/projects/{ProjectId}"
+@using TimeBuddy.Blazor.Components.Store.ProjectUseCase
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ProjectState> State
@@ -19,13 +19,14 @@ else
 @code {
 
     [Parameter]
-    public int ProjectId { get; set; }
+    public string? ProjectId { get; set; }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Dispatcher.Dispatch(new LoadProjectAction(ProjectId));
+        if (ProjectId != null) 
+            Dispatcher.Dispatch(new LoadProjectAction(Guid.Parse(ProjectId)));
     }
     
 }

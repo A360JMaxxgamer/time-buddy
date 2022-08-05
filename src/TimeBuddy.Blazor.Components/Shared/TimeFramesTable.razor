@@ -1,6 +1,4 @@
-﻿@using TimeBuddy.Core.Models
-
-<MudTable T="TimeFrame" Items="TimeFrames">
+﻿<MudTable T="ITimeFrame" Items="TimeFrames">
     <HeaderContent>
         <MudTh>Started at</MudTh>
         <MudTh>Finished at</MudTh>
@@ -13,6 +11,6 @@
 
 @code {
     [Parameter]
-    public IEnumerable<TimeFrame> TimeFrames { get; set; } = Enumerable.Empty<TimeFrame>();
+    public IEnumerable<ITimeFrame> TimeFrames { get; set; } = Enumerable.Empty<ITimeFrame>();
 
 }
