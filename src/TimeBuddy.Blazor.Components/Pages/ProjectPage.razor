@@ -10,6 +10,7 @@
 }
 else
 {
+    @ProjectId
     <div class="d-flex flex-column ma-5">
         <h4 Class="mb-5">@State.Value.Project.Name</h4>
         <TimeFrameTimeLine TimeFrames="@State.Value.Project.TimeFrames"/>
@@ -19,14 +20,14 @@ else
 @code {
 
     [Parameter]
-    public string? ProjectId { get; set; }
+    public string ProjectId { get; set; }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (ProjectId != null) 
-            Dispatcher.Dispatch(new LoadProjectAction(Guid.Parse(ProjectId)));
+        if (Guid.TryParse(ProjectId, out var id)) 
+            Dispatcher.Dispatch(new LoadProjectAction(id));
     }
     
 }

@@ -16,7 +16,8 @@ public static class ServiceCollectionExtension
         serviceCollection.AddApiClient()
             .ConfigureHttpClient((provider, client) =>
             {
-                var apiEndpoint = provider.GetRequiredService<IConfiguration>().GetConnectionString("Api");
+                var config = provider.GetRequiredService<IConfiguration>();
+                var apiEndpoint = config.GetValue<string>("Api");
                 client.BaseAddress = new Uri(apiEndpoint);
             });
         

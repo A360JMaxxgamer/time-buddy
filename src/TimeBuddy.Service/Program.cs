@@ -8,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 var postgresConfiguration = PostgresConfiguration.ReadFromConfiguration(builder.Configuration);
 
 builder.Services
+    .AddCors(opt => opt.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:5001")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    }))
     .AddPooledDbContextFactory<TimeBuddyContext>(opt => opt
         .UseNpgsql(postgresConfiguration.GetConnectionString()))
     .AddGraphQLServer()
@@ -30,6 +36,7 @@ var dbContext = app.Services
     .CreateDbContext();
 dbContext.Database.Migrate();
 
+app.UseCors();
 app.MapGraphQL();
 
 app.Run();
