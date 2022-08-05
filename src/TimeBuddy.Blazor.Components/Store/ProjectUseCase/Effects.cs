@@ -1,12 +1,15 @@
-﻿namespace TimeBuddy.Blazor.Components.Store.ProjectUseCase;
+﻿using Fluxor;
+using StrawberryShake;
+
+namespace TimeBuddy.Blazor.Components.Store.ProjectUseCase;
 
 public class Effects
 {
-    private readonly TimeBuddyContext _timeBuddyContext;
+    private readonly IApiClient _apiClient;
 
-    public Effects(TimeBuddyContext timeBuddyContext)
+    public Effects(IApiClient apiClient)
     {
-        _timeBuddyContext = timeBuddyContext;
+        _apiClient = apiClient;
     }
 
     [EffectMethod]
@@ -15,18 +18,15 @@ public class Effects
         try
         {
             dispatcher.Dispatch(new SetIsloadingAction(true));
-            var project = await _timeBuddyContext.Projects
-                .AsNoTracking()
-                .Include(p => p.TimeFrames)
-                .FirstOrDefaultAsync(p => p.Id == action.ProjectId);
-            if (project is not null)
+            var project = await _apiClient.GetProjectById.ExecuteAsync(action.ProjectId);
+            if (project.IsSuccessResult() && project.Data?.Project is not null)
             {
-                dispatcher.Dispatch(new SetProjectAction(project));
+                dispatcher.Dispatch(new SetProjectAction(project.Data.Project));
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            // Todo add loggin
+            // Todo add logging
         }
         finally
         {

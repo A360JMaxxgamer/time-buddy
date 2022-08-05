@@ -1,3 +1,3 @@
 ﻿namespace TimeBuddy.Blazor.Components.Store.ProjectUseCase;
 
-public record ProjectState(Project? Project, bool IsLoading);
+public record ProjectState(IProjectDetailed? Project, bool IsLoading);

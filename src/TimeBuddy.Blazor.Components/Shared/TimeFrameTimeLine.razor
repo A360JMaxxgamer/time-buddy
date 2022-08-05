@@ -6,9 +6,9 @@
     </MudCardHeader>
     <MudCardContent>
         <MudGrid Class="d-flex flex-row align-items-center justify-center" Spacing="5" Justify="Justify.SpaceBetween">
-            <MudIconButton Icon="@Icons.Filled.ArrowBack" OnClick="() => SelectedDate -= TimeSpan.FromDays(7)"/>
+            <MudIconButton Icon="@Icons.Filled.ArrowBack" OnClick="() => SelectedDate = SelectedDate.Value - TimeSpan.FromDays(7)"/>
             <MudDatePicker @bind-Date="SelectedDate"/>
-            <MudIconButton Icon="@Icons.Filled.ArrowForward" OnClick="() => SelectedDate += TimeSpan.FromDays(7)"/>
+            <MudIconButton Icon="@Icons.Filled.ArrowForward" OnClick="() => SelectedDate = SelectedDate.Value + TimeSpan.FromDays(7)"/>
         </MudGrid>
 
         @if (SelectedDate.HasValue)
@@ -50,12 +50,12 @@
     public DateTime? SelectedDate { get; set; } = DateTime.Now;
 
     [Parameter] 
-    public IEnumerable<TimeFrame> TimeFrames { get; set; }= Enumerable.Empty<TimeFrame>();
+    public IEnumerable<ITimeFrame> TimeFrames { get; set; }= Enumerable.Empty<ITimeFrame>();
 
     [Parameter]
     public double TargetHoursPerDay { get; set; } = 8;
 
-    private IGrouping<DateOnly, DateTimeFrame>[] GetTimeFramesOfWeek(IEnumerable<TimeFrame> timeFrames, DateTime start, DateTime end) => timeFrames
+    private IGrouping<DateOnly, DateTimeFrame>[] GetTimeFramesOfWeek(IEnumerable<ITimeFrame> timeFrames, DateTime start, DateTime end) => timeFrames
         .Where(t => t.StartDate >= start && t.StartDate < end)
         .Select(timeframe =>
         {
@@ -65,7 +65,7 @@
         .GroupBy(dateTimeFrame => dateTimeFrame.Date)
         .ToArray();
 
-    private record DateTimeFrame(DateOnly Date, TimeFrame TimeFrame);
+    private record DateTimeFrame(DateOnly Date, ITimeFrame TimeFrame);
 
     private string GetHeader(IGrouping<DateOnly, DateTimeFrame> group)
     {

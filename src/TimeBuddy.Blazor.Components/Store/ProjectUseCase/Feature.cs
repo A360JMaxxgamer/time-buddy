@@ -1,4 +1,6 @@
-﻿namespace TimeBuddy.Blazor.Components.Store.ProjectUseCase;
+﻿using Fluxor;
+
+namespace TimeBuddy.Blazor.Components.Store.ProjectUseCase;
 
 public class Feature : Feature<ProjectState>
 {

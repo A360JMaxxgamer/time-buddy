@@ -15,4 +15,14 @@ public class Query
     [UseSorting]
     [UseFiltering]
     public IQueryable<Project> GetProjects(TimeBuddyContext dbContext) => dbContext.Projects;
+
+    /// <summary>
+    /// Get first project which matches the filter criteria
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
+    [UseProjection]
+    [UseFiltering]
+    [UseFirstOrDefault]
+    public IQueryable<Project> GetProject(TimeBuddyContext dbContext) => dbContext.Projects;
 }

@@ -8,7 +8,7 @@ public interface ITimerService
     
     Task<DateTime> PlayAsync();
 
-    Task<TimeFrame> PauseAsync();
+    Task<TimeFrameInput> PauseAsync();
 
-    Task<TimeFrame[]> StopAsync();
+    Task<TimeFrameInput[]> StopAsync();
 }

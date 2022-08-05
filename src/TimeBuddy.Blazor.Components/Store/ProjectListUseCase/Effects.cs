@@ -25,7 +25,7 @@ public class Effects
                 dispatcher.Dispatch(new SetProjectsAction(projects.Data.Projects.Nodes));
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // Todo add logging
         }

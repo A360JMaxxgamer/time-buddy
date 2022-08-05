@@ -1,6 +1,8 @@
 ﻿using Fluxor;
 using Microsoft.Extensions.Logging;
+using StrawberryShake;
 using TimeBuddy.Blazor.Components.Services;
+using TimeBuddy.Blazor.Components.Store.ProjectUseCase;
 
 namespace TimeBuddy.Blazor.Components.Store.TimerUseCase;
 
@@ -9,19 +11,19 @@ public class Effects
     private const string StorageKey = "TimerState";
     private readonly ILocalStorageService _localStorageService;
     private readonly ILogger<Effects> _logger;
-    private readonly TimeBuddyContext _timeBuddyContext;
+    private readonly IApiClient _apiClient;
     private readonly ITimerService _timerService;
     private readonly IState<TimerState> _timerState;
 
     public Effects(
         ILogger<Effects> logger,
-        TimeBuddyContext timeBuddyContext, 
+        IApiClient apiClient,
         ITimerService timerService, 
         IState<TimerState> timerState,
         ILocalStorageService localStorageService)
     {
         _logger = logger;
-        _timeBuddyContext = timeBuddyContext;
+        _apiClient = apiClient;
         _timerService = timerService;
         _timerState = timerState;
         _localStorageService = localStorageService;
@@ -67,17 +69,15 @@ public class Effects
     [EffectMethod]
     public async Task HandleSaveAction(SaveAction action, IDispatcher dispatcher)
     {
-        var project = await _timeBuddyContext.Projects.FirstOrDefaultAsync(p => p.Id == action.Project.Id);
-        if (project != null)
+        await _apiClient.AddTimeFramesToProject.ExecuteAsync(new AddTimeFramesToProjectInput
         {
-            project.TimeFrames.AddRange(action.RecordedTimeFrames);
-            await _timeBuddyContext.SaveChangesAsync();
-            var state = TimerState.New();
-            await SaveStateLocally(state with
-            {
-                ActiveProject = project
-            });
-            dispatcher.Dispatch(new SetActiveProjectAction(project));
+            ProjectId = action.ProjectId,
+            TimeFrames = action.RecordedTimeFrames
+        });
+
+        if (_timerState.Value.ActiveProject?.Id == action.ProjectId)
+        {
+            dispatcher.Dispatch(new LoadProjectAction(action.ProjectId));
         }
     }
 
@@ -86,9 +86,22 @@ public class Effects
     {
         var recordedTimeFrames = await _timerService.StopAsync();
         if (_timerState.Value.ActiveProject is not null)
-            dispatcher.Dispatch(new SaveAction(_timerState.Value.ActiveProject, recordedTimeFrames));
+            dispatcher.Dispatch(new SaveAction(_timerState.Value.ActiveProject.Id, recordedTimeFrames));
         dispatcher.Dispatch(new SetActivityAction(TimerActivity.Stopped));
+    }
 
+    [EffectMethod]
+    public async Task HandleSetProjectAction(SetProjectAction action, IDispatcher dispatcher)
+    {
+        var projectDetailsResult = await _apiClient.GetProjectTimerData.ExecuteAsync(
+            action.Project.Id, 
+            DateTime.Today,
+            DateTime.Today + TimeSpan.FromHours(24));
+
+        if (projectDetailsResult.IsSuccessResult() && projectDetailsResult.Data?.Project is not null)
+        {
+            dispatcher.Dispatch(projectDetailsResult.Data.Project);
+        }
     }
 
     private async Task SaveStateLocally(TimerState state)

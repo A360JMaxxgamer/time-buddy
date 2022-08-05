@@ -16,6 +16,8 @@ builder.Services
     .AddFiltering()
     .AddProjections()
     .AddType<ProjectSettingsType>()
+    .AddType<ProjectType>()
+    .AddType<TimeFrameType>()
     .RegisterDbContext<TimeBuddyContext>(DbContextKind.Pooled)
     .AddMutationConventions()
     .AddQueryType<Query>()

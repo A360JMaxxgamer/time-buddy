@@ -19,5 +19,4 @@
         <PackageReference Include="StrawberryShake.Transport.Http" Version="12.12.1" />
         <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
     </ItemGroup>
-    
 </Project>

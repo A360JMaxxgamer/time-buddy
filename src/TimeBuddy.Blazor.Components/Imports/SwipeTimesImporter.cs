@@ -1,16 +1,17 @@
 ﻿using System.Xml.Serialization;
+using Fluxor;
 using TimeBuddy.Blazor.Components.Store.ProjectListUseCase;
 
 namespace TimeBuddy.Blazor.Components.Imports;
 
 public class SwipeTimesImporter : IImporter
 {
-    private readonly TimeBuddyContext _timeBuddyContext;
+    private readonly IApiClient _apiClient;
     private readonly IDispatcher _dispatcher;
 
-    public SwipeTimesImporter(TimeBuddyContext timeBuddyContext, IDispatcher dispatcher)
+    public SwipeTimesImporter(IApiClient apiClient, IDispatcher dispatcher)
     {
-        _timeBuddyContext = timeBuddyContext;
+        _apiClient = apiClient;
         _dispatcher = dispatcher;
     }
     
@@ -31,24 +32,18 @@ public class SwipeTimesImporter : IImporter
 
         foreach (var projectGroup in groupedByProject)
         {
-            var project = new Project
+            var project = new CreateProjectInput
             {
-                Name = projectGroup.Key,
-                CreatedAt = DateTime.UtcNow,
-                TimeFrames = projectGroup
-                    .Select(rec => new TimeFrame
+                ProjectName = projectGroup.Key,
+                TimeFrameInputs = projectGroup
+                    .Select(rec => new TimeFrameInput
                     {
                         StartDate = rec.Start,
                         Duration = rec.End - rec.Start
                     })
                     .ToList(),
-                Settings = new ProjectSettings
-                {
-                    TargetHoursPerDay = 8
-                }
             };
-            _timeBuddyContext.Projects.Add(project);
-            await _timeBuddyContext.SaveChangesAsync();
+            await _apiClient.CreateProject.ExecuteAsync(project);
         }
         _dispatcher.Dispatch(new FetchProjectsAction());
     }
@@ -65,13 +60,11 @@ public record Record
 {
     [XmlElement("project")] public string Project { get; set; } = "Unknown";
 
-    [XmlAttribute("start")]
-    public string StartString { get; set; }
+    [XmlAttribute("start")] public string StartString { get; set; } = string.Empty;
 
     [XmlIgnore] public DateTime Start => DateTime.Parse(StartString);
-    
-    [XmlAttribute("end")]
-    public string EndString { get; set; }
+
+    [XmlAttribute("end")] public string EndString { get; set; } = string.Empty;
     
     [XmlIgnore] public DateTime End => DateTime.Parse(EndString);
 }

@@ -12,14 +12,21 @@ public class Mutation
     /// </summary>
     /// <param name="dbContext"></param>
     /// <param name="projectName">Name of the project</param>
+    /// <param name="timeFrameInputs"></param>
     /// <returns></returns>
-    public async Task<Project> CreateProjectAsync(TimeBuddyContext dbContext, string projectName)
+    public async Task<Project> CreateProjectAsync(TimeBuddyContext dbContext, string projectName, TimeFrameInput[]? timeFrameInputs)
     {
         var project = new Project()
         {
             Name = projectName,
             CreatedAt = DateTime.UtcNow
         };
+
+        if (timeFrameInputs is not null)
+        {
+            project.TimeFrames.AddRange(timeFrameInputs.Select(ConvertToTimeFrame));
+        }
+        
         var tracking = await dbContext.AddAsync(project);
         await dbContext.SaveChangesAsync();
         return tracking.Entity;
@@ -41,14 +48,16 @@ public class Mutation
         if (project is null)
             throw new ProjectNotFoundException(projectId);
         
-        project.TimeFrames.AddRange(timeFrames.Select(t => new TimeFrame
-        {
-            StartDate = t.StartDate,
-            Duration = t.Duration
-        }));
+        project.TimeFrames.AddRange(timeFrames.Select(ConvertToTimeFrame));
         await dbContext.SaveChangesAsync();
         return project;
     }
+
+    private static TimeFrame ConvertToTimeFrame(TimeFrameInput input) => new()
+    {
+        Duration = input.Duration,
+        StartDate = input.StartDate
+    };
 }
 
 public record TimeFrameInput(DateTime StartDate, TimeSpan Duration);

@@ -6,15 +6,17 @@ public record PauseAction;
 
 public record StopAction;
 
-public record SetActiveProjectAction(Project Project);
+public record SetActiveProjectAction(IProjectBase Project);
+
+public record SetActiveProjectDetailsAction(IGetProjectTimerData_Project ProjectDetails);
 
 public record SetActivityAction(TimerActivity Activity);
 
 public record SetLastStartAction(DateTime StartedAt);
 
-public record AddRecordedTimeFrame(TimeFrame TimeFrame);
+public record AddRecordedTimeFrame(TimeFrameInput TimeFrame);
 
-public record SaveAction(Project Project, TimeFrame[] RecordedTimeFrames);
+public record SaveAction(Guid ProjectId, TimeFrameInput[] RecordedTimeFrames);
 
 public record SetLoadedStateAction(TimerState State);
 

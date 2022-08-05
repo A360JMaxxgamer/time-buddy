@@ -2,6 +2,6 @@
 
 public record SetIsloadingAction(bool IsLoading);
 
-public record LoadProjectAction(int ProjectId);
+public record LoadProjectAction(Guid ProjectId);
 
-public record SetProjectAction(Project Project);
+public record SetProjectAction(IProjectDetailed Project);

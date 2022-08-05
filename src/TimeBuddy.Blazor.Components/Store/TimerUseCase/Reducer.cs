@@ -45,4 +45,11 @@ public static class Reducer
         {
             ActiveProject = action.Project
         };
+    
+    [ReducerMethod]
+    public static TimerState ReduceSetActiveProjectDetailsAction(TimerState state, SetActiveProjectDetailsAction action) =>
+        state with
+        {
+            ActiveProjectDetails = action.ProjectDetails
+        };
 }

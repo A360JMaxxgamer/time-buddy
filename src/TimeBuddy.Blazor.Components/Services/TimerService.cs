@@ -4,11 +4,11 @@ namespace TimeBuddy.Blazor.Components.Services;
 
 internal class TimerService : ITimerService
 {
-    private readonly List<TimeFrame> _currentTimeFrames = new();
+    private readonly List<TimeFrameInput> _currentTimeFrames = new();
     private DateTime _lastStartTime;
 
     /// <inheritdoc />
-    public Task<TimeFrame> PauseAsync()
+    public Task<TimeFrameInput> PauseAsync()
     {
         return Task.FromResult(RecordTimeFrame());
     }
@@ -30,16 +30,16 @@ internal class TimerService : ITimerService
     }
 
     /// <inheritdoc />
-    public Task<TimeFrame[]> StopAsync()
+    public Task<TimeFrameInput[]> StopAsync()
     {
         var timeFrame = RecordTimeFrame();
         _currentTimeFrames.Add(timeFrame);
         return Task.FromResult(_currentTimeFrames.ToArray());
     }
 
-    private TimeFrame RecordTimeFrame()
+    private TimeFrameInput RecordTimeFrame()
     {
-        var timeFrame = new TimeFrame
+        var timeFrame = new TimeFrameInput
         {
             StartDate = _lastStartTime,
             Duration = DateTime.UtcNow - _lastStartTime.ToUniversalTime()

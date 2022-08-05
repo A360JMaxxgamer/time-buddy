@@ -5,7 +5,7 @@
     "strawberryShake": {
       "name": "ApiClient",
       "namespace": "TimeBuddy.Blazor.Components",
-      "url": "http://127.0.0.1:5178/graphql",
+      "url": "http://127.0.0.1:5179/graphql",
       "dependencyInjection": true,
       "strictSchemaValidation": true,
       "hashAlgorithm": "md5",
