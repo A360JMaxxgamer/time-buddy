@@ -6,6 +6,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/TimeBuddy.Webapp/TimeBuddy.Webapp.csproj", "TimeBuddy.Webapp/"]
+COPY ["src/TimeBuddy.Blazor.Components/TimeBuddy.Blazor.Components.csproj", "TimeBuddy.Blazor.Components/"]
 RUN dotnet restore "src/TimeBuddy.Webapp/TimeBuddy.Webapp.csproj"
 COPY . .
 WORKDIR "/src/TimeBuddy.Webapp"
