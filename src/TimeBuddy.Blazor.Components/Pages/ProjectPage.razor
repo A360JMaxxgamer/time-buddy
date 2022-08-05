@@ -19,14 +19,14 @@ else
 @code {
 
     [Parameter]
-    public string? ProjectId { get; set; }
+    public string ProjectId { get; set; } = Guid.Empty.ToString();
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (ProjectId != null) 
-            Dispatcher.Dispatch(new LoadProjectAction(Guid.Parse(ProjectId)));
+        if (Guid.TryParse(ProjectId, out var id)) 
+            Dispatcher.Dispatch(new LoadProjectAction(id));
     }
     
 }

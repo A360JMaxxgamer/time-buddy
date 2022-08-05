@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="Fluxor.Blazor.Web" Version="5.4.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.7" />
         <PackageReference Include="MudBlazor" Version="6.0.10" />
         <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="12.12.1" />
         <PackageReference Include="StrawberryShake.Transport.Http" Version="12.12.1" />

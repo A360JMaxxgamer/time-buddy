@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7CE25D55-511
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor.Components", "src\TimeBuddy.Blazor.Components\TimeBuddy.Blazor.Components.csproj", "{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Blazor", "src\TimeBuddy.Blazor\TimeBuddy.Blazor.csproj", "{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{D7AEDE05-719A-4418-9B46-AB8CB52EDBF4}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -14,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{D7AEDE05-719
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Service", "src\TimeBuddy.Service\TimeBuddy.Service.csproj", "{530370C0-D5CF-44D1-B68D-4645C3EEF90C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBuddy.Webapp", "src\TimeBuddy.Webapp\TimeBuddy.Webapp.csproj", "{DE64BAA3-49C7-4A61-8599-275845DC52A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,18 +25,18 @@ Global
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{530370C0-D5CF-44D1-B68D-4645C3EEF90C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{530370C0-D5CF-44D1-B68D-4645C3EEF90C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{530370C0-D5CF-44D1-B68D-4645C3EEF90C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{530370C0-D5CF-44D1-B68D-4645C3EEF90C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE64BAA3-49C7-4A61-8599-275845DC52A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE64BAA3-49C7-4A61-8599-275845DC52A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE64BAA3-49C7-4A61-8599-275845DC52A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE64BAA3-49C7-4A61-8599-275845DC52A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{810440CA-19A6-4AFE-9AD5-5BB5B413F3A9} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
-		{10AC53E4-A9A0-4FD2-BB19-E7FC0B4CF651} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
 		{530370C0-D5CF-44D1-B68D-4645C3EEF90C} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
+		{DE64BAA3-49C7-4A61-8599-275845DC52A3} = {7CE25D55-5113-4AD4-931A-CB89B579CF3F}
 	EndGlobalSection
 EndGlobal

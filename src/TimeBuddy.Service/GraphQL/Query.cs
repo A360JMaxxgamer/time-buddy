@@ -21,8 +21,8 @@ public class Query
     /// </summary>
     /// <param name="dbContext"></param>
     /// <returns></returns>
+    [UseFirstOrDefault]
     [UseProjection]
     [UseFiltering]
-    [UseFirstOrDefault]
     public IQueryable<Project> GetProject(TimeBuddyContext dbContext) => dbContext.Projects;
 }
