@@ -1,0 +1,8 @@
+<AuthorizeView>
+    <Authorized>
+        @if (context.User?.Identity?.Name is not null && context.User.Identity.Name.Length > 0)
+        {
+            <MudAvatar>@context.User.Identity.Name[0]</MudAvatar>
+        }
+    </Authorized>
+</AuthorizeView>

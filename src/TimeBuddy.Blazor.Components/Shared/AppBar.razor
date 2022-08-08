@@ -2,6 +2,7 @@
 @using TimeBuddy.Blazor.Components.Imports
 @inject IImporter Importer
 
+<UserButton></UserButton>
 <InputFile id="fileInput" OnChange="UploadFiles" hidden />
 <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" Href="/"/>
 <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.Upload" Color="Color.Inherit" Edge="Edge.Start" for="fileInput"/>
