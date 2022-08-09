@@ -1,14 +1,17 @@
 ﻿using Fluxor;
+using Microsoft.Extensions.Logging;
 using StrawberryShake;
 
 namespace TimeBuddy.Blazor.Components.Store.ProjectListUseCase;
 
 public class Effects
 {
+    private readonly ILogger<Effects> _logger;
     private readonly IApiClient _apiClient;
 
-    public Effects(IApiClient apiClient)
+    public Effects(ILogger<Effects> logger, IApiClient apiClient)
     {
+        _logger = logger;
         _apiClient = apiClient;
     }
 
@@ -19,15 +22,16 @@ public class Effects
         {
             dispatcher.Dispatch(new SetIsLoadingAction(true));
             var projects = await _apiClient.GetProjectBases.ExecuteAsync();
-
+            
+            projects.EnsureNoErrors();
             if (projects.IsSuccessResult() && projects.Data?.Projects?.Nodes is not null)
             {
                 dispatcher.Dispatch(new SetProjectsAction(projects.Data.Projects.Nodes));
             }
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // Todo add logging
+            _logger.LogError(e, "Fetching projects failed");
         }
         finally
         {

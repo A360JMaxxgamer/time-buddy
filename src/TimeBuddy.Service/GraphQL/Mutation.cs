@@ -1,3 +1,4 @@
+using HotChocolate.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TimeBuddy.Service.Contexts;
 using TimeBuddy.Service.GraphQL.Exceptions;
@@ -5,6 +6,7 @@ using TimeBuddy.Service.Models;
 
 namespace TimeBuddy.Service.GraphQL;
 
+[Authorize]
 public class Mutation
 {
     /// <summary>

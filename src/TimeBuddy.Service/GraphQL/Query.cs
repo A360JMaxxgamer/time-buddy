@@ -1,8 +1,10 @@
+using HotChocolate.AspNetCore.Authorization;
 using TimeBuddy.Service.Contexts;
 using TimeBuddy.Service.Models;
 
 namespace TimeBuddy.Service.GraphQL;
 
+[Authorize]
 public class Query
 {
     /// <summary>

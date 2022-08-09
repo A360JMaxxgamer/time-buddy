@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using TimeBuddy.Service.Configurations;
 using TimeBuddy.Service.Contexts;
@@ -8,15 +10,26 @@ var builder = WebApplication.CreateBuilder(args);
 var postgresConfiguration = PostgresConfiguration.ReadFromConfiguration(builder.Configuration);
 
 builder.Services
-    .AddCors(opt => opt.AddDefaultPolicy(builder =>
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
     {
-        builder.WithOrigins("http://localhost:5001")
+        var authSection = builder.Configuration.GetSection("Authentication");
+        opt.Authority = authSection.GetValue<string>("Authority");
+    });
+builder.Services.AddAuthorization();
+
+builder.Services
+    .AddCors(opt => opt.AddDefaultPolicy(policyBuilder =>
+    {
+        var origins = builder.Configuration.GetValue<string>("Origins");
+        policyBuilder.WithOrigins(origins)
             .AllowAnyHeader()
             .AllowAnyMethod();
     }))
     .AddPooledDbContextFactory<TimeBuddyContext>(opt => opt
         .UseNpgsql(postgresConfiguration.GetConnectionString()))
     .AddGraphQLServer()
+    .AddAuthorization()
     .AddQueryableCursorPagingProvider()
     .AddSorting()
     .AddFiltering()
@@ -30,6 +43,11 @@ builder.Services
     .AddMutationType<Mutation>();
 
 var app = builder.Build();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var dbContext = app.Services
     .GetRequiredService<IDbContextFactory<TimeBuddyContext>>()
